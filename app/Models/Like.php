@@ -14,7 +14,6 @@ class Like extends Model
 
     protected $fillable = [
         'user_id',
-        'likes_count',
         'likeable_id',
         'likeable_type',
     ];
@@ -29,6 +28,7 @@ class Like extends Model
         return $this->morphTo();
     }
 
+    /*
     protected static function booted()
     {
         static::created(function ($like) {
@@ -38,6 +38,6 @@ class Like extends Model
         static::deleted(function ($like) {
             $like->likeable?->decrement('likes_count');
         });
-    }
+    }*/
 
 }

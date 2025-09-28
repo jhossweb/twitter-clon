@@ -20,8 +20,8 @@ class TweetFactory extends Factory
         return [
             'tweet_content' => fake()->sentence(),
            // 'tweet_likes' => fake()->randomNumber(2, false),
-            'tweet_retweets' => fake()->randomNumber(2, false),
-            'tweet_comments' => fake()->randomNumber(2, false),
+            'tweet_retweets_count' => fake()->randomNumber(2, false),
+            //'comments_count' => fake()->randomNumber(2, false),
             'user_id' => User::inRandomOrder()->first()->id,
         ];
     }

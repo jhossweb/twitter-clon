@@ -16,8 +16,8 @@ class Tweet extends Model
     protected $fillable = [
         'tweet_content',
         'likes_count',
-        'tweet_retweets',
-        'tweet_comments',
+        'tweet_retweets_count',
+        'comments_count',
         'user_id',
     ];
 

@@ -1,6 +1,6 @@
-<div class="space-y-6 max-w-xl mx-auto mt-6">
+<div  class="space-y-6 max-w-xl mx-auto mt-6">
     @foreach($this->tweets as $tweet)
-        <div class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+        <div wire:key="tweet-{{ $tweet->id }}" class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
             {{-- Avatar --}}
             <img src="{{ $tweet->user->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($tweet->user->name) }}" 
                  alt="Avatar" 
@@ -28,9 +28,11 @@
                     <button class="hover:text-green-500 flex items-center gap-1">
                         🔁 <span> {{ $tweet->retweets_count }} </span>
                     </button>
-                    <button class="hover:text-red-500 flex items-center gap-1">
-                        ❤️ <span>{{ $tweet->likes_count }}</span>
-                    </button>
+
+                
+                    <livewire:tweets.like :likeable="$tweet" :wire:key="'tweet-like-'.$tweet->id" />
+
+
                 </div>
             </div>
         </div>

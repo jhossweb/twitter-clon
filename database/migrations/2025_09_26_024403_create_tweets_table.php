@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->string("tweet_content", 180);
             $table->integer("likes_count")->default(0);
-            $table->integer("tweet_retweets")->default(0);
-            $table->integer("tweet_comments")->default(0);
+            $table->integer("tweet_retweets_count")->default(0);
+            $table->integer("comments_count")->default(0);
             
             $table->foreignId('user_id')->constrained()->onDelete("cascade");
 
