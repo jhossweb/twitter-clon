@@ -30,7 +30,7 @@ class TweetComments extends Model
 
     function tweet(): BelongsTo
     {
-        return $this->belongsTo(Tweet::class);
+        return $this->belongsTo(Tweet::class, 'tweet_id');
     }
 
     function parent(): BelongsTo
@@ -55,4 +55,17 @@ class TweetComments extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
     
+    
+
+    protected static function booted()
+    {
+        static::created(function ($comment) {
+            $comment->tweet?->increment('comments_count');
+        });
+
+        static::deleted(function ($comment) {
+            $comment->tweet?->decrement('comments_count');
+        });
+    }
+
 }
