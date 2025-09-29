@@ -22,9 +22,8 @@
 
                 {{-- Acciones --}}
                 <div class="flex gap-6 mt-3 text-gray-500 text-sm">
-                    <button class="hover:text-blue-500 flex items-center gap-1">
-                        💬 <span> {{ $tweet->comments_count }} </span>
-                    </button>
+                    <livewire:tweets.comments :tweetId="$tweet->id" :wire:key="'comment-'.$tweet->id" />
+                    
                     <button class="hover:text-green-500 flex items-center gap-1">
                         🔁 <span> {{ $tweet->retweets_count }} </span>
                     </button>
@@ -35,6 +34,8 @@
 
                 </div>
             </div>
+
+            
         </div>
     @endforeach
 </div>

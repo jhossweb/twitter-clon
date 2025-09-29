@@ -18,7 +18,7 @@ class GetTweets extends Component
     #[On('tweet-created')]
     function getListTweets() {
         
-        $this->tweets = Tweet::with('user')
+        $this->tweets = Tweet::with(['user', 'comments'])
             ->latest()
             ->get();
     }
