@@ -1,5 +1,8 @@
 <?php
 
+use App\Livewire\ShowTweet;
+use App\Livewire\Tweets\ShowTweet as TweetsShowTweet;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,5 +21,35 @@ Route::middleware([
     Route::get('/tweets', function () {
         return view('tweets.index');
     })->name('tweets.inedx');
+
+
+    Route::get('/tweets/{tweet}', TweetsShowTweet::class)->name('tweet.show');    
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

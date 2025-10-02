@@ -1,6 +1,6 @@
 <div  class="space-y-6 max-w-xl mx-auto mt-6">
     @foreach($this->tweets as $tweet)
-        <div wire:key="tweet-{{ $tweet->id }}" class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+        <a href="{{ route('tweet.show', $tweet->id) }}" wire:key="tweet-{{ $tweet->id }}" class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
             {{-- Avatar --}}
             <img src="{{ $tweet->user->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($tweet->user->name) }}" 
                  alt="Avatar" 
@@ -21,14 +21,14 @@
                 </p>
 
                 {{-- Acciones --}}
-                <div class="flex gap-6 mt-3 text-gray-500 text-sm">
-                    <livewire:tweets.comments :tweetId="$tweet->id" :wire:key="'comment-'.$tweet->id" />
+                <div class="flex gap-6 mt-3 text-gray-500 text-sm z-10 relative">
+                    <livewire:tweets.comments :tweetId="$tweet->id" :wire:key="'comment-'.$tweet->id" class="cursor-auto"/>
                     
                     <button class="hover:text-green-500 flex items-center gap-1">
                         🔁 <span> {{ $tweet->retweets_count }} </span>
                     </button>
 
-                
+                    
                     <livewire:tweets.like :likeable="$tweet" :wire:key="'tweet-like-'.$tweet->id" />
 
 
@@ -36,6 +36,6 @@
             </div>
 
             
-        </div>
+        </a>
     @endforeach
 </div>

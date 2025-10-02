@@ -55,7 +55,7 @@ class Comments extends Component
         return <<<'HTML'
         <div>
 
-            <button wire:click="openFormComment" class="hover:text-blue-500 flex items-center gap-1">
+            <button wire:click.prevent.stop="openFormComment" class="hover:text-blue-500 flex items-center gap-1">
                         
                 💬 <span> {{ $this->tweet->comments_count }} </span>
             </button>
