@@ -3,10 +3,18 @@
 namespace App\Livewire\Tweets;
 
 use App\Models\Tweet;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateTweet extends Component
 {
+    use WithFileUploads;
+
+
+    #[Validate(['media.*' => 'nullable|file|max:10240|mimes:jpg,jpeg,png,mp4,mov'])]
+    public $media = [];
+    
     public $tweet_content = '';
     public $showModal = false;
 
@@ -18,10 +26,18 @@ class CreateTweet extends Component
 
     function save()
     {
-        Tweet::create([
+        $tweet = Tweet::create([
             'tweet_content' => $this->tweet_content,
             'user_id' => auth()->id(),
         ]);
+
+        foreach ($this->media as $file) {
+            $path = $file->store("tweets", 'public');
+
+            $tweet->images()->create([
+                'image_url' => $path,
+            ]);
+        }
         
         $this->dispatch('tweet-created');
         $this->reset('tweet_content');

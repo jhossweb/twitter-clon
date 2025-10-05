@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
 
 
         // ========== Tweets e images ==========
-        Tweet::factory(10)->create()->each( function ($tweet) {
+        Tweet::factory(200)->create()->each( function ($tweet) {
             Image::factory(5)->create([
                 'imageable_id' => $tweet->id,
                 'imageable_type' => Tweet::class

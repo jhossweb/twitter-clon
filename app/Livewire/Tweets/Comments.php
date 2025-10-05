@@ -53,27 +53,30 @@ class Comments extends Component
     public function render()
     {
         return <<<'HTML'
-        <div>
+            <div>
 
-            <button wire:click.prevent.stop="openFormComment" class="hover:text-blue-500 flex items-center gap-1">
-                        
-                💬 <span> {{ $this->tweet->comments_count }} </span>
-            </button>
+                <button wire:click.prevent.stop="openFormComment" class="hover:text-blue-500 flex items-center gap-1">
+                            
+                    💬 <span> {{ $this->tweet->comments_count }} </span>
+                </button>
 
-            <x-dialog-modal wire:model="showModalComment" maxWidth="lg">
-                <x-slot name="title">Comentario </x-slot>
+                <form wire:submit.prevent="save">
+                    <x-dialog-modal wire:model="showModalComment" maxWidth="lg">
+                        <x-slot name="title">Comentario </x-slot>
 
-                <x-slot name="content">
-                    <textarea wire:model.defer="comment_content" class="w-full border rounded p-2" rows="3"></textarea>
-                    @error('comment_content') <span class="text-red-600">{{ $message }}</span> @enderror
-                </x-slot>
+                        <x-slot name="content">
+                            <textarea wire:model.defer="comment_content" class="w-full border rounded p-2" rows="3"></textarea>
+                            @error('comment_content') <span class="text-red-600">{{ $message }}</span> @enderror
+                        </x-slot>
 
-                <x-slot name="footer">
-                    <x-button wire:click="save">Guardar</x-button>
-                    <x-button wire:click="$set('showModalComment', false)" class="ml-2">Cancelar</x-button>
-                </x-slot>
-            </x-dialog-modal>
-        </div>
+                        <x-slot name="footer">
+                            <x-button wire:click="save">Guardar</x-button>
+                            <x-button wire:click="$set('showModalComment', false)" class="ml-2">Cancelar</x-button>
+                        </x-slot>
+                    </x-dialog-modal>
+                </form>
+
+            </div>
         HTML;
     }
 }
