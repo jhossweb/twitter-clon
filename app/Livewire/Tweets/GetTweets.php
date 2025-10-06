@@ -3,62 +3,79 @@
 namespace App\Livewire\Tweets;
 
 use App\Models\Tweet;
-use Livewire\Attributes\On;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
+use Livewire\Attributes\On;
 
-
+#[Lazy()]
 class GetTweets extends Component
 {
     public $perPage = 10;
     public $hasMorePages;
+    public $tweetsList = null;
 
-    public $tweets = [];
+    const CACHE_KEY = 'tweets';
 
+    #[Computed()]
+    public function getTweetsProperty()
+    {
+        if ($this->tweetsList !== null) {
+            $tweetsList = $this->tweetsList;
+        } else {
+            $tweetsList = Cache::remember(self::CACHE_KEY, now()->addMinutes(10), function () {
+                return Tweet::with([
+                    'user',
+                    'media',
+                    'comments.user',
+                    'likes.user'
+                ])
+                ->latest('created_at', 'desc')
+                ->limit(100)
+                ->get();
+            });
+
+            $this->tweetsList = $tweetsList;
+        }
+
+        $this->hasMorePages = $tweetsList->count() > $this->perPage;
+
+        return $tweetsList->take($this->perPage);
+    }
 
     function loadMore()
     {
-        $this->perPage += 10;
-    }
-
-    function mount() {
-        $this->getListTweets();
-        
+        if ($this->hasMorePages) {
+            $this->perPage += 10;
+        }
     }
 
     #[On('tweet-created')]
-    function getListTweets() {
-        
-        $this->tweets = Tweet::with(['user', 'comments', 'images'])
-                            ->latest()
-                            ->get();
-
-    }
-
-    public function getTweetsProperty()
+    function updateFeedAndCache($tweetId)
     {
-        /*
-        return Tweet::with(['user', 'media'])->latest()->get()->map(function ($tweet) {
-            $tweet->media_grouped = collect($tweet->media)->groupBy(function ($file) {
-                return str_starts_with($file->type, 'image') ? 'images' : 'videos';
-            });
-            return $tweet;
-        });*/
+        $newTweet = Tweet::with([
+            'user',
+            'media',
+            'comments.user',
+            'likes.user'
+        ])->findOrFail($tweetId);
 
-        $tweets = Tweet::with(['user', 'media'])
-                        ->latest()
-                        ->limit($this->perPage + 1)
-                        ->get();
-        
-        
-        // verifica si se cargó el tweet extra
-        $this->hasMorePages = $tweets->count() > $this->perPage;
+        $this->getTweetsProperty();
 
-        
-        //deveulve sólo los tweets hasta el límite de perPage
-        return $tweets->take($this->perPage);
+        if ($this->tweetsList instanceof \Illuminate\Support\Collection) {
+            $this->tweetsList->prepend($newTweet);
+            $this->tweetsList = $this->tweetsList->take(100)->values(); // Reindexar y limitar
+        } else {
+            $this->tweetsList = collect([$newTweet]);
+        }
+
+        // Actualizar caché
+        dispatch(new \App\Jobs\RebuildTweetCache());
+
+        // Forzar re-render
+        $this->perPage = $this->perPage;
     }
-
-
 
     public function render()
     {

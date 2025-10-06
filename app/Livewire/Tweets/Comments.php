@@ -25,9 +25,7 @@ class Comments extends Component
 
     public function mount(int $tweetId)
     {
-        $this->tweetId = $tweetId;
-        $this->tweet = Tweet::findOrFail($tweetId);
-        $this->commentsCount = $this->tweet->comments_count;
+        $this->tweetId = $tweetId;       
     }
     
 

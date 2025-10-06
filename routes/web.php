@@ -23,7 +23,8 @@ Route::middleware([
     })->name('tweets.inedx');
 
 
-    Route::get('/tweets/{tweet}', TweetsShowTweet::class)->name('tweet.show');    
+    Route::get('/tweets/{tweet}', TweetsShowTweet::class)->name('tweet.show');  
+      
 });
 
 

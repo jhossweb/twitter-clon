@@ -33,7 +33,7 @@ class Tweet extends Model
     }
 
 
-    function images(): MorphMany
+    function media(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
     }

@@ -34,12 +34,12 @@ class CreateTweet extends Component
         foreach ($this->media as $file) {
             $path = $file->store("tweets", 'public');
 
-            $tweet->images()->create([
+            $tweet->media()->create([
                 'image_url' => $path,
             ]);
         }
         
-        $this->dispatch('tweet-created');
+        $this->dispatch('tweet-created', $tweet->id);
         $this->reset('tweet_content');
         $this->showModal = false;
 

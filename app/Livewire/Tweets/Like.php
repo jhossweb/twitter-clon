@@ -16,7 +16,15 @@ class Like extends Component
     {
         $this->likeable = $likeable;
         $this->likesCount = $likeable->likes_count;
-        $this->liked = $likeable->likes()->where('user_id', auth()->id())->exists();
+        
+        if(auth()->check()) 
+        {
+            if($likeable->relationLoaded('likes')) {
+                $this->liked = $likeable->likes->contains('user_id', auth()->id());
+            } else {
+                $this->liked = $likeable->likes()->where('user_id', auth()->id())->exists();
+            }
+        }
     }
 
     #[On('tweet-created')]
