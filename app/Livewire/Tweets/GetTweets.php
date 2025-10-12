@@ -13,7 +13,7 @@ use Livewire\Attributes\On;
 #[Lazy()]
 class GetTweets extends Component
 {
-
+    // propiedad usada para reutilizar el componente en perfil de usuario
     public ?User $user = null;
 
     public $perPage = 10;
@@ -22,7 +22,7 @@ class GetTweets extends Component
 
     const CACHE_KEY = 'tweets';
 
-
+    // Si se pasa un usuario, cargar sus tweets sin caché
     function mount(?User $user = null)
     {
         $this->user = $user;
