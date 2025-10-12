@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -67,7 +68,15 @@ class User extends Authenticatable
         ];
     }
 
-     function follower(): BelongsToMany
+    
+    function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    
+
+     function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'followers', 'follower_id', 'followin_id');
     }
@@ -80,5 +89,15 @@ class User extends Authenticatable
     function tweets(): HasMany
     {
         return $this->hasMany(Tweet::class);
+    }
+
+    function getFollowingAttribute(): int
+    {
+        return $this->following()->count();
+    }
+
+    function getFollowersAttribute(): int
+    {
+        return $this->followers()->count();
     }
 }

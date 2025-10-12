@@ -24,6 +24,7 @@ Route::middleware([
 
 
     Route::get('/tweets/{tweet}', TweetsShowTweet::class)->name('tweet.show');  
+    Route::get('/profile/{user}', App\Livewire\Users\Profile::class)->name('profile.user');
       
 });
 

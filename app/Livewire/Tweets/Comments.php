@@ -23,9 +23,9 @@ class Comments extends Component
         $this->showModalComment = true;
     }
 
-    public function mount(int $tweetId)
+    public function mount(Tweet $tweetId)
     {
-        $this->tweetId = $tweetId;       
+        $this->tweet = $tweetId;       
     }
     
 

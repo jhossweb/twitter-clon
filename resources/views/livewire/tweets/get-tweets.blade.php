@@ -1,21 +1,29 @@
 <div class="space-y-6 max-w-xl mx-auto mt-6">
     @foreach($this->tweets as $tweet)
-        <a href="{{ route('tweet.show', $tweet->id) }}" wire:key="tweet-{{ $tweet->id }}" class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-            {{-- Avatar --}}
-            <img src="{{ $tweet->user->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($tweet->user->name) }}"
-                 alt="Avatar"
-                 class="w-10 h-10 rounded-full object-cover">
+        <div wire:key="tweet-{{ $tweet->id }}" class="flex gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
+            {{-- Avatar con enlace al perfil --}}
+            <a href="{{ route('profile.show', $tweet->user->id) }}" class="flex-shrink-0">
+                <img src="{{ $tweet->user->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($tweet->user->name) }}"
+                     alt="Avatar"
+                     class="w-10 h-10 rounded-full object-cover hover:opacity-80 transition">
+            </a>
 
             {{-- Contenido --}}
             <div class="flex-1">
+                {{-- Nombre de usuario con enlace al perfil --}}
                 <div class="flex items-center gap-2 text-sm">
-                    <span class="font-semibold text-gray-900">{{ $tweet->user->name }}</span>
+                    <a href="{{ route('profile.user', $tweet->user->id) }}" class="font-semibold text-gray-900 hover:text-blue-600 transition">
+                        {{ $tweet->user->name }}
+                    </a>
                     <span class="text-gray-400">· {{ $tweet->created_at->diffForHumans() }}</span>
                 </div>
 
-                <p class="mt-1 text-gray-800 text-[15px] leading-snug">
-                    {{ $tweet->tweet_content }}
-                </p>
+                {{-- Contenido del tweet con enlace al detalle --}}
+                <a href="{{ route('tweet.show', $tweet->id) }}" class="block mt-1">
+                    <p class="text-gray-800 text-[15px] leading-snug hover:text-gray-600 transition">
+                        {{ $tweet->tweet_content }}
+                    </p>
+                </a>
 
                 {{-- Imágenes tipo Facebook --}}
                 @php
@@ -24,39 +32,45 @@
                 @endphp
 
                 @if($count === 1)
-                    <div class="mt-3">
+                    <a href="{{ route('tweet.show', $tweet->id) }}" class="block mt-3">
                         <img src="{{ Storage::url($media[0]->image_url) }}"
                              alt="Tweet media"
-                             class="rounded-lg w-full max-h-96 object-cover border border-gray-200"
+                             class="rounded-lg w-full max-h-96 object-cover border border-gray-200 hover:opacity-90 transition"
                              loading="lazy" />
-                    </div>
+                    </a>
                 @elseif($count === 2)
                     <div class="mt-3 grid grid-cols-2 gap-2">
                         @foreach($media as $image)
-                            <img src="{{ Storage::url($image->image_url) }}"
-                                 alt="Tweet media"
-                                 loading="lazy"
-                                 class="rounded-lg w-full max-h-64 object-cover border border-gray-200" />
+                            <a href="{{ route('tweet.show', $tweet->id) }}" class="block">
+                                <img src="{{ Storage::url($image->image_url) }}"
+                                     alt="Tweet media"
+                                     loading="lazy"
+                                     class="rounded-lg w-full max-h-64 object-cover border border-gray-200 hover:opacity-90 transition" />
+                            </a>
                         @endforeach
                     </div>
                 @elseif($count > 2)
                     <div class="mt-3 grid grid-cols-3 gap-2">
                         <div class="col-span-2">
-                            <img src="{{ Storage::url($media[0]->image_url) }}"
-                                 alt="Tweet media"
-                                 loading="lazy"
-                                 class="rounded-lg w-full max-h-96 object-cover border border-gray-200" />
+                            <a href="{{ route('tweet.show', $tweet->id) }}" class="block">
+                                <img src="{{ Storage::url($media[0]->image_url) }}"
+                                     alt="Tweet media"
+                                     loading="lazy"
+                                     class="rounded-lg w-full max-h-96 object-cover border border-gray-200 hover:opacity-90 transition" />
+                            </a>
                         </div>
                         <div class="relative">
-                            <img src="{{ Storage::url($media[1]->image_url) }}"
-                                 alt="Tweet media"
-                                 loading="lazy"
-                                 class="rounded-lg w-full h-full max-h-96 object-cover border border-gray-200" />
-                            @if($count > 2)
-                                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold rounded-lg">
-                                    +{{ $count - 2 }}
-                                </div>
-                            @endif
+                            <a href="{{ route('tweet.show', $tweet->id) }}" class="block">
+                                <img src="{{ Storage::url($media[1]->image_url) }}"
+                                     alt="Tweet media"
+                                     loading="lazy"
+                                     class="rounded-lg w-full h-full max-h-96 object-cover border border-gray-200 hover:opacity-90 transition" />
+                                @if($count > 2)
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl font-bold rounded-lg">
+                                        +{{ $count - 2 }}
+                                    </div>
+                                @endif
+                            </a>
                         </div>
                     </div>
                 @endif
@@ -70,7 +84,7 @@
                     <livewire:tweets.like lazy :likeable="$tweet" :wire:key="'tweet-like-'.$tweet->id" />
                 </div>
             </div>
-        </a>
+        </div>
     @endforeach
 
     {{-- Scroll infinito --}}
