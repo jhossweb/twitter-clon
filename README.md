@@ -1,61 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Twitter-clon (Clon de microblogging) 🐦
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Proyecto personal: una réplica funcional de las principales características de una plataforma de microblogging. Está pensado como un ejercicio técnico para practicar arquitecturas web modernas, reactividad en el frontend y gestión eficiente de relaciones de datos en Laravel.
 
-## About Laravel
+## Características principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Autenticación y autorización (registro, login y control de acceso).
+- Publicación de mensajes (tweets) con límite de caracteres.
+- Likes y reacciones en tiempo real.
+- Sistema de seguidores (follow/unfollow) y timeline personalizado.
+- Perfiles de usuario con sus publicaciones y estadísticas.
+- Feed dinámico que muestra publicaciones de usuarios seguidos.
+- Optimización de consultas usando Eloquent (eager loading) para evitar N+1.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Stack tecnológico
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Backend: Laravel 12 (PHP 8.2+)
+- Reactividad / SPA-like: Livewire 3
+- Base de datos: MySQL o PostgreSQL
+- Estilos: Tailwind CSS
+- Contenerización (opcional): Docker / Docker Compose
 
-## Learning Laravel
+## Estructura del proyecto (resumen)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- `app/` - Código principal de la aplicación (Models, Http/Controllers, Livewire components, Actions, Jobs, Notifications).
+- `config/` - Configuraciones del framework y paquetes.
+- `database/` - Migraciones, factories y seeders.
+- `resources/` - Vistas, assets y archivos de frontend.
+- `routes/` - Rutas de la aplicación (`web.php`, `api.php`).
+- `tests/` - Pruebas unitarias y funcionales.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Requisitos
 
-## Laravel Sponsors
+- PHP 8.2 o superior
+- Composer
+- Node.js + npm
+- PostgreSQL
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+## Instalación (desarrollo)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1. Clona el repositorio (si no lo has hecho):
 
-## Contributing
+   git clone <repo-url>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Entra al directorio del proyecto:
 
-## Code of Conduct
+   cd twitter-clon
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. Instala dependencias de PHP:
 
-## Security Vulnerabilities
+   composer install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Copia el archivo de entorno y genera una clave de aplicación:
 
-## License
+   cp .env.example .env; php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Configura la conexión a la base de datos en `.env` (MySQL o PostgreSQL).
+
+6. Ejecuta migraciones:
+
+   php artisan migrate --seed
+
+7. Instala dependencias frontend y compila:
+
+   npm install; npm run dev
+
+8. Inicia el servidor de desarrollo:
+
+   php artisan serve
+
+
+
+## Uso
+
+- Regístrate o inicia sesión.
+- Publica mensajes desde la interfaz principal.
+- Sigue a otros usuarios y observa cómo cambia tu timeline.
+- Interactúa con publicaciones mediante likes y comentarios.
+
+
+
+
+## Contribuir
+
+Si quieres contribuir:
+
+1. Haz fork del repositorio.
+2. Crea una rama con tu feature/bugfix: `git checkout -b feature/nombre`.
+3. Realiza tus cambios y sube tu rama.
+4. Abre un pull request describiendo los cambios.
+
