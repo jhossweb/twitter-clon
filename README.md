@@ -1,4 +1,4 @@
-# Twitter-clon (Clon de microblogging) 🐦
+# Twitter-clon (X) 🐦
 
 Proyecto personal: una réplica funcional de las principales características de una plataforma de microblogging. Está pensado como un ejercicio técnico para practicar arquitecturas web modernas, reactividad en el frontend y gestión eficiente de relaciones de datos en Laravel.
 
